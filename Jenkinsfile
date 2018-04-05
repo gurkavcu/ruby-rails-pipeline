@@ -28,7 +28,8 @@ podTemplate(label: 'builder',
                 container('docker') {
                     checkout scm   
                     def docker_id =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk "{print $1}"') 
-                    sh "echo \\"
+                    sh "echo "+docker_id
+                    sh "pwd"
                  
                     sh "docker build -t rails-example --network container:"+docker_id+" ."                
                 }
