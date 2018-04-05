@@ -1,13 +1,14 @@
 #The base image, with ruby pre-installed
 #see: https://hub.docker.com/_/ruby/
-FROM ruby:2.5
+FROM ruby:2.
 
 # Install dependencies:
 # - build-essential: To ensure certain gems can be compiled
 # - nodejs: Compile assets
 # - libpq-dev: Communicate with postgres through the postgres gem
 # - postgresql-client-9.4: In case you want to talk directly to postgres
-RUN apt-get update && apt-get install -y build-essential nodejs libpq-dev postgresql-client-9.4 --fix-missing --no-install-recommends
+RUN apt-get update 
+RUN apt-get install -y build-essential nodejs libpq-dev postgresql-client-9.4 --fix-missing --no-install-recommends
 
 # Set an environment variable to store where the app is installed to inside
 # of the Docker image.
