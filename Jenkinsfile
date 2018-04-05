@@ -25,20 +25,11 @@ podTemplate(label: 'builder',
             }
 
             stage('Build docker image') {
-                checkout scm                        
-                gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                serviceName = "ruby-rails-pipeline"
-                DOCKER_IMAGE_REPO = "304703668734.dkr.ecr.eu-central-1.amazonaws.com/ruby-rails-pipeline"
                 container('docker') {
-                    sh "docker build -t ${serviceName}:${gitCommit} ."
-                    sh "docker tag ${serviceName}:${gitCommit} ${DOCKER_IMAGE_REPO}:${gitCommit}"
-                    sh "docker tag ${serviceName}:${gitCommit} ${DOCKER_IMAGE_REPO}:latest"
-                    withDockerRegistry([credentialsId: 'ecr:eu-central-1:aws-cred', url: "https://${DOCKER_IMAGE_REPO}"]) { 
-                        sh "docker push ${DOCKER_IMAGE_REPO}:${gitCommit}"
-                        sh "docker push ${DOCKER_IMAGE_REPO}:latest"
-                        /*slackSend color: '#4CAF50', message: "New version of ${serviceName}:${gitCommit} pushed to ECR!"*/
-                    }
-
+                
+                    checkout scm   
+                    sh "docker build -t rails-example ."
+                
                 }
             }
         }
