@@ -21,7 +21,6 @@ podTemplate(label: 'builder',
             stage('Run helm') {
               container('helm') {
                 sh "helm list"
-                sh "kubectl config view"
               }
             }
 
