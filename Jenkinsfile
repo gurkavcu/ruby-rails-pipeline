@@ -27,15 +27,26 @@ podTemplate(label: 'builder',
             stage('Build docker image') {
                 container('docker') {
                     checkout scm
-                    //sh "sleep 10m"   
+                    def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                    def SERVICE_NAME = "ruby-rails-pipeline"
+                    def DOCKER_IMAGE_REPO = "304703668734.dkr.ecr.eu-central-1.amazonaws.com/ruby-rails-pipeline"
                     def DOCKER_ID =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk \'{print $1}\'') 
 
                     sh """
                        docker ps
                        echo ${hostname}
-                       docker build . -t rails-example --network container:${DOCKER_ID}
+                       docker build . -t ${SERVICE_NAME}:${GIT_COMMIT} --network container:${DOCKER_ID}
+                       docker tag ${SERVICE_NAME}:${GIT_COMMIT} ${DOCKER_IMAGE_REPO}:${GIT_COMMIT}
+                       docker tag ${SERVICE_NAME}:${GIT_COMMIT} ${DOCKER_IMAGE_REPO}:latest
                        """
+
+                    withDockerRegistry([credentialsId: 'ecr:eu-central-1:aws-cred', url: "https://${DOCKER_IMAGE_REPO}"]) { 
+                        sh "docker push ${DOCKER_IMAGE_REPO}:${GIT_COMMIT}"
+                        sh "docker push ${DOCKER_IMAGE_REPO}:latest"
+                        /*slackSend color: '#4CAF50', message: "New version of ${serviceName}:${gitCommit} pushed to ECR!"*/
+                    }
                 }
             }
+
         }
     }
