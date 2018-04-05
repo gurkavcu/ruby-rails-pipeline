@@ -2,7 +2,7 @@ podTemplate(label: 'builder',
             containers: [
                     containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
                     containerTemplate(name: 'kubectl', image: 'ceroic/kubectl', command: 'cat', ttyEnabled: true),
-                    containerTemplate(name: 'docker', image: 'docker:18.03.0-ce', command: 'cat', ttyEnabled: true)
+                    containerTemplate(name: 'docker', image: 'docker:18.03.0-ce', command: 'cat', ttyEnabled: true, args: 'DOCKER_OPTS="--dns 8.8.8.8"')
             ],
             volumes: [
                     hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
@@ -26,7 +26,7 @@ podTemplate(label: 'builder',
 
             stage('Build docker image') {
                 container('docker') {
-                
+
                     checkout scm   
                     sh "docker build -t rails-example ."
                 
