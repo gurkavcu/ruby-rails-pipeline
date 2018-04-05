@@ -30,7 +30,7 @@ podTemplate(label: 'builder',
                     //sh "sleep 10m"   
                     def docker_id =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk \'{print $1}\'') 
 
-                    sh (returnStdout: false, script: 'docker build --network container:'+docker_id+' -t rails-example . ') 
+                    sh (returnStdout: false, script: 'docker build . --network container:'+docker_id+' -t rails-example') 
 
                 }
             }
