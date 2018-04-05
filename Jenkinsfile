@@ -28,7 +28,7 @@ podTemplate(label: 'builder',
                 container('docker') {
                     checkout scm
                     //sh "sleep 10m"   
-                    def docker_id =  sh (returnStdout: true, script: "docker ps | grep $(hostname) | grep docker | awk '{print $1}'") 
+                    def docker_id =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk \'{print $1}\'') 
                     sh "echo "+docker_id
                     sh "pwd"
                  
