@@ -28,10 +28,11 @@ podTemplate(label: 'builder',
                 container('docker') {
                     checkout scm
                     //sh "sleep 10m"   
-                    def docker_id =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk \'{print $1}\'') 
+                    def DOCKER_ID =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk \'{print $1}\'') 
 
-                    sh (returnStdout: false, script: 'docker build \. --network container:'+docker_id+' -t rails-example') 
-
+                    sh """
+                       docker build --network container:${DOCKER_ID} -t rails-example .
+                       """
                 }
             }
         }
