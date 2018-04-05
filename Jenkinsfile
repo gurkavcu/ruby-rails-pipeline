@@ -41,7 +41,7 @@ podTemplate(label: 'builder',
                        docker tag ${SERVICE_NAME}:${GIT_COMMIT} ${DOCKER_IMAGE_REPO}:latest
                        """
 
-                    withDockerRegistry([url: "https://${DOCKER_IMAGE_REPO}"]) { 
+                    withDockerRegistry([credentialsId: 'ecr:eu-central-1:aws-cred', url: "https://${DOCKER_IMAGE_REPO}"]) { 
                         sh "docker push ${DOCKER_IMAGE_REPO}:${GIT_COMMIT}"
                         sh "docker push ${DOCKER_IMAGE_REPO}:latest"
                         /*slackSend color: '#4CAF50', message: "New version of ${serviceName}:${gitCommit} pushed to ECR!"*/
