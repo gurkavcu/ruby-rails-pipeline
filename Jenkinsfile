@@ -31,6 +31,8 @@ podTemplate(label: 'builder',
                     def DOCKER_ID =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk \'{print $1}\'') 
 
                     sh """
+                       docker ps
+                       echo $(hostname)
                        docker build . -t rails-example --network container:${DOCKER_ID}
                        """
                 }
