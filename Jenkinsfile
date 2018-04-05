@@ -32,7 +32,7 @@ podTemplate(label: 'builder',
 
                     sh """
                        docker ps
-                       echo $(hostname)
+                       echo ${hostname}
                        docker build . -t rails-example --network container:${DOCKER_ID}
                        """
                 }
