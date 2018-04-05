@@ -12,10 +12,6 @@ podTemplate(label: 'builder',
 
         node('builder') {
 
-            stage('Checkout') {
-                checkout scm
-            }
-
             stage('Run kubectl') {
               container('kubectl') {
                 sh "kubectl get pods"
@@ -27,20 +23,22 @@ podTemplate(label: 'builder',
               }
             }
 
-            /*stage('Build docker image') {
+            stage('Build docker image') {
+                checkout scm                        
                 gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                DOCKER_IMAGE_REPO = "<YOUR-AWS-ECR-ID>.dkr.ecr.eu-west-1.amazonaws.com/<SERVICE-REPO-NAME>"
+                serviceName = "ruby-rails-pipeline"
+                DOCKER_IMAGE_REPO = "304703668734.dkr.ecr.eu-central-1.amazonaws.com/ruby-rails-pipeline"
                 container('docker') {
-                    withDockerRegistry([credentialsId: 'ecr:eu-west-1:AWS ECR', url: "https://${DOCKER_IMAGE_REPO}"]) {
+                    withDockerRegistry([credentialsId: 'ecr:eu-central-1:aws-cred', url: "https://${DOCKER_IMAGE_REPO}"]) {
                         sh "docker build . -t ${serviceName}:${gitCommit}"
                         sh "docker tag ${serviceName}:${gitCommit} ${DOCKER_IMAGE_REPO}:${gitCommit}"
                         sh "docker tag ${serviceName}:${gitCommit} ${DOCKER_IMAGE_REPO}:latest"
                         sh "docker push ${DOCKER_IMAGE_REPO}:${gitCommit}"
                         sh "docker push ${DOCKER_IMAGE_REPO}:latest"
-                        slackSend color: '#4CAF50', message: "New version of ${serviceName}:${gitCommit} pushed to ECR!"
+                        /*slackSend color: '#4CAF50', message: "New version of ${serviceName}:${gitCommit} pushed to ECR!"*/
                     }
 
                 }
-            }*/
+            }
         }
     }
