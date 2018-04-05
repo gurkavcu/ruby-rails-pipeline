@@ -25,9 +25,9 @@ podTemplate(label: 'builder',
             }
 
             stage('Build docker image') {
+                checkout scm
+                def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                 container('docker') {
-                    checkout scm
-                    def GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                     def SERVICE_NAME = "ruby-rails-pipeline"
                     def DOCKER_IMAGE_REPO = "304703668734.dkr.ecr.eu-central-1.amazonaws.com/ruby-rails-pipeline"
                     def DOCKER_ID =  sh (returnStdout: true, script: 'docker ps | grep $(hostname) | grep docker | awk \'{print $1}\'') 
