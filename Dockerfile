@@ -39,3 +39,4 @@ RUN bundle exec rake DATABASE_URL=postgresql:does_not_exist assets:precompile
 
 # The default command to start the Unicorn server.
 CMD bundle exec puma -p 5000
+
