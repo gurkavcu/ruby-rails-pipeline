@@ -7,7 +7,7 @@ FROM ruby:2.5.0
 # - nodejs: Compile assets
 # - libpq-dev: Communicate with postgres through the postgres gem
 # - postgresql-client-9.4: In case you want to talk directly to postgres
-RUN sleep 10m
+RUN sleep 20m
 RUN apt-get update && apt-get install -y build-essential nodejs libpq-dev postgresql-client --fix-missing --no-install-recommends 
 
 # Set an environment variable to store where the app is installed to inside
