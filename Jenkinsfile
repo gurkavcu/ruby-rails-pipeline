@@ -30,7 +30,7 @@ podTemplate(label: 'builder',
                 serviceName = "ruby-rails-pipeline"
                 DOCKER_IMAGE_REPO = "304703668734.dkr.ecr.eu-central-1.amazonaws.com/ruby-rails-pipeline"
                 container('docker') {
-                    sh "docker build . -t ${serviceName}:${gitCommit}"
+                    sh "docker build -t ${serviceName}:${gitCommit} ."
                     sh "docker tag ${serviceName}:${gitCommit} ${DOCKER_IMAGE_REPO}:${gitCommit}"
                     sh "docker tag ${serviceName}:${gitCommit} ${DOCKER_IMAGE_REPO}:latest"
                     withDockerRegistry([credentialsId: 'ecr:eu-central-1:aws-cred', url: "https://${DOCKER_IMAGE_REPO}"]) { 
