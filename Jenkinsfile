@@ -12,9 +12,9 @@ podTemplate(label: 'builder',
 
         node('builder') {
 
-            /*stage('Checkout') {
+            stage('Checkout') {
                 checkout scm
-            }*/
+            }
 
             stage('Run kubectl') {
               container('kubectl') {
