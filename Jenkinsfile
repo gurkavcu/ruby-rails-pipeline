@@ -26,10 +26,8 @@ podTemplate(label: 'builder',
 
             stage('Build docker image') {
                 container('docker') {
-
                     checkout scm   
-                    sh "docker build -t rails-example ."
-                
+                    sh "docker build -t rails-example --network container:\$(docker ps | grep $(hostname) | grep docker | awk '{print $1}') ."                
                 }
             }
         }
