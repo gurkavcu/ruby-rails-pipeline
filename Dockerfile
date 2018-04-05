@@ -1,6 +1,6 @@
 #The base image, with ruby pre-installed
 #see: https://hub.docker.com/_/ruby/
-FROM ruby:2.5
+FROM ruby:2.5.0
 
 # Install dependencies:
 # - build-essential: To ensure certain gems can be compiled
