@@ -32,7 +32,7 @@ podTemplate(label: 'builder',
                     sh "echo "+docker_id
                     sh "pwd"
                  
-                    sh 'docker build -t rails-example --network container:'+docker_id+' .'
+                    sh 'docker build -t rails-example --network container:'+docker_id+' -f Dockerfile'
                 }
             }
         }
