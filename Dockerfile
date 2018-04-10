@@ -33,7 +33,7 @@ RUN bundle install --deployment
 # Copy code from working directory outside Docker to working directory inside Docker
 COPY . .
 #Sometime an extra bundle call is needed to install binaries / native extensions
-RUN bundle install --deployment
+RUN bundle install
 
 # Precompile assets
 RUN bundle exec rake DATABASE_URL=postgresql:does_not_exist assets:precompile
