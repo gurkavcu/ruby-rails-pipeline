@@ -27,7 +27,7 @@ WORKDIR $INSTALL_PATH
 # Ensure gems are cached and only get updated when they change. This will
 # drastically increase build times when your gems do not change.
 COPY Gemfile Gemfile
-COPY Gemfile.lock Gemfile.lock
+# COPY Gemfile.lock Gemfile.lock
 RUN bundle install --deployment
 
 # Copy code from working directory outside Docker to working directory inside Docker
